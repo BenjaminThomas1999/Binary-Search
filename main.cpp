@@ -13,41 +13,6 @@ void outputVector(std::vector<T> input){
 	}
 	std::cout << "]\n";
 }
-
-int binarySearch(std::vector<double> input, double target, int startIndex = 0){
-	if(input.size() < 2){
-		//std::cout << "Could not find middle";
-		return startIndex;
-	}
-
-	int middleIndex = int(input.size())/2;
-	double middle = input[middleIndex];
-	
-	if(target == middle){
-		return middleIndex + startIndex; 
-	}
-	else if(target < middle){
-		std::vector<double>::const_iterator begin = input.begin();
-		std::vector<double>::const_iterator last = input.begin() + middleIndex;
-		std::vector<double> firstHalf(begin, last);
-		//std::cout << "First Half: ";
-		//outputVector(firstHalf);
-		return binarySearch(firstHalf, target, startIndex);
-	}
-	else if(target > middle){
-		std::vector<double>::const_iterator begin = input.begin() + middleIndex + 1;
-		std::vector<double>::const_iterator last = input.begin() + input.size();
-		std::vector<double> secondHalf(begin, last);
-		//std::cout << "Second Half: ";
-		//outputVector(secondHalf);
-		return binarySearch(secondHalf, target, startIndex+middleIndex+1);
-	}
-	else{
-		return -1;
-	}
-}
-
-
 std::vector<double> doubleVectorInput(){
 	std::string inputString;
 	getline(std::cin, inputString);
@@ -59,6 +24,29 @@ std::vector<double> doubleVectorInput(){
 	}
 	return array;  	
 }
+
+
+int binarySearch(std::vector<double> &input, double target, int startIndex = 0, int endIndex = -1){
+	if(endIndex == -1){
+		endIndex = input.size()-1;
+	}
+	int middleIndex = (startIndex + endIndex)/2;
+
+	if(startIndex == endIndex){
+		return startIndex;
+	}
+	if(target == input[middleIndex]){
+		return middleIndex;
+	}
+	else if(target < input[middleIndex]){
+		return binarySearch(input, target, startIndex, middleIndex-1);
+	}
+	else if(target > input[middleIndex]){
+		return binarySearch(input, target, middleIndex+1, endIndex);
+	}
+}
+
+
 
 int main(){
 	double target;
