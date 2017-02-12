@@ -30,11 +30,12 @@ int binarySearch(std::vector<double> &input, double target, int startIndex = 0, 
 	if(endIndex == -1){
 		endIndex = input.size()-1;
 	}
-	int middleIndex = (startIndex + endIndex)/2;
-
 	if(startIndex == endIndex){
 		return startIndex;
 	}
+	int middleIndex = (startIndex + endIndex)/2;
+
+	
 	if(target == input[middleIndex]){
 		return middleIndex;
 	}
@@ -44,6 +45,26 @@ int binarySearch(std::vector<double> &input, double target, int startIndex = 0, 
 	else if(target > input[middleIndex]){
 		return binarySearch(input, target, middleIndex+1, endIndex);
 	}
+}
+
+int iterBinarySearch(std::vector<double> &input, double target){
+	int endIndex = input.size()-1;
+	int startIndex = 0;
+	
+	while(startIndex != endIndex){
+		int middleIndex = (startIndex + endIndex)/2;
+		
+		if(target == input[middleIndex]){
+			return middleIndex;
+		}
+		else if(target < input[middleIndex]){
+			endIndex = middleIndex-1;
+		}
+		else if(target > input[middleIndex]){
+			startIndex = middleIndex+1;
+		}
+	}
+	return startIndex;
 }
 
 
